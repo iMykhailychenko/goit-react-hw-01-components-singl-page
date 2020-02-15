@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import styles from './TransactionHistory.module.css';
 
 const TransactionHistory = ({ transactions }) => (
-  <table className={'transaction-history ' + styles.table}>
+  <table className={cx('transaction-history ', styles.table)}>
     <thead>
       <tr className={styles.row}>
-        <th className={styles.head}>{'Type'}</th>
-        <th className={styles.head}>{'Amount'}</th>
-        <th className={styles.head}>{'Currency'}</th>
+        <th className={styles.head}>Type</th>
+        <th className={styles.head}>Amount</th>
+        <th className={styles.head}>Currency</th>
       </tr>
     </thead>
     <tbody>
-      {transactions.map(item => (
-        <tr key={item.id} className={styles.row}>
-          <td className={styles.item}>{item.type}</td>
-          <td className={styles.item}>{item.amount}</td>
-          <td className={styles.item}>{item.currency}</td>
+      {transactions.map(({ id, type, amount, currency }) => (
+        <tr key={id} className={styles.row}>
+          <td className={styles.item}>{type}</td>
+          <td className={styles.item}>{amount}</td>
+          <td className={styles.item}>{currency}</td>
         </tr>
       ))}
     </tbody>

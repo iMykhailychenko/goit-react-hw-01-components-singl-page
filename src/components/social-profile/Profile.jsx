@@ -1,9 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Profile.module.css';
 
-const Profile = ({user}) => {
-  const {stats, avatar, name, tag, location} = user;
+const Profile = ({ user: { stats, avatar, name, tag, location } }) => {
   const statistic = Object.entries(stats);
 
   return (
@@ -18,8 +18,9 @@ const Profile = ({user}) => {
       <ul className={styles.stats}>
         {statistic.map((item, index) => (
           <li key={index} className={styles.st_items}>
-            <span className={styles.label}>{item[0]}</span>
-            <span className={styles.quantity}>{item[1]}</span>
+            {item.map((element, secondIndex) => (
+              <span key={secondIndex}>{element}</span>
+            ))}
           </li>
         ))}
       </ul>
@@ -33,8 +34,8 @@ Profile.propTypes = {
     tag: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,
-    stats: PropTypes.objectOf(PropTypes.number.isRequired),
-  }),
+    stats: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
+  }).isRequired,
 };
 
 export default Profile;

@@ -1,43 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './Statistics.module.css';
-
-const colorItem = () => Math.round(Math.random() * 255);
-let color = [255, 255, 255];
+import {
+  StatSection,
+  StatTitle,
+  StatList,
+  StatItem,
+  StatLabel,
+  StatPercentage,
+} from './Statistics.styled';
+import getColor from './random-color';
 
 const Statistics = ({ title, statisticalData }) => (
-  <section className={styles.statistics}>
-    {title && <h2 className={styles.title}>{title}</h2>}
-    <ul className={styles.statList}>
+  <StatSection>
+    {title && <StatTitle>{title}</StatTitle>}
+    <StatList>
       {statisticalData.map(element => {
-        // generate random background color
-        const background = [colorItem(), colorItem(), colorItem()];
-        const backgroundSum = background.reduce((acum, item) => acum + item, 0);
-        
-        // in case to have better contrast we'll set black or white font color
-        if (backgroundSum > 550) {
-          color = color.map(item => 0);
-        } else {
-          color = color.map(item => 255);
-        }
+        const colors = getColor();
+
         return (
-          <li
+          <StatItem
             key={element.id}
-            className={styles.item}
-            style={{
-              backgroundColor: `rgba( ${background[0]} , ${background[1]} , ${background[2]}, 0.6)`,
-              border: `1px solid rgb( ${background[0]} , ${background[1]} , ${background[2]})`,
-              color: `rgb( ${color[0]} , ${color[1]} , ${color[2]})`,
-            }}
+            // Не нашел решение, как можно сделать рандомную заливку и при этом
+            // чтобы каждый тег li имел разный цвет.
+            // Могу только сделать с помощью styledcomponent все li одинакового цвета
+            // но при этом при каждом рендкре цвет будет меняться
+            style={{ backgroundColor: colors.background, color: colors.color }}
           >
-            <span className={styles.label}>{element.label}</span>
-            <span className={styles.percentage}>{element.percentage}%</span>
-          </li>
+            <StatLabel>{element.label}</StatLabel>
+            <StatPercentage>{element.percentage}%</StatPercentage>
+          </StatItem>
         );
       })}
-    </ul>
-  </section>
+    </StatList>
+  </StatSection>
 );
+
+Statistics.defaultProps = {
+  title: undefined,
+};
 
 Statistics.propTypes = {
   title: PropTypes.string,

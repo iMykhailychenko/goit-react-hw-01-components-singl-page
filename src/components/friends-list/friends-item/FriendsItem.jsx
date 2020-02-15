@@ -5,17 +5,11 @@ import styles from './FriendsItem.module.css';
 const FriendsItem = ({ friends }) => {
   return (
     <>
-      {friends.map(item => (
-        <li key={item.id} className={styles.item}>
-          <span
-            className={item.isOnline ? styles.online : styles.offline}
-          ></span>
-          <img
-            className={styles.avatar}
-            src={item.avatar}
-            alt="avatar"
-          />
-          <p className={styles.name}>{item.name}</p>
+      {friends.map(({ id, isOnline, avatar, name }) => (
+        <li key={id} className={styles.item}>
+          <span className={isOnline ? styles.online : styles.offline} />
+          <img className={styles.avatar} src={avatar} alt="avatar" />
+          <p className={styles.name}>{name}</p>
         </li>
       ))}
     </>
